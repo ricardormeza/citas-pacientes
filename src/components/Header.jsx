@@ -1,11 +1,11 @@
 
-function Header(){
+function Header() {
 
-    return(
-        <header className="grid">
-            <h1 className="text-4xl font-bold uppercase">Desde header</h1>
-
-        </header>
+    return (
+        <>
+            <h1 className="font-blank text-5xl text-center md:w-2/3 mx-auto">Seguimiento pacientes {" "}
+            <span className="text-indigo-600">Veterinaria</span> </h1>
+        </>
     )
 }
 
