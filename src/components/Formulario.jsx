@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import Error from './Error';
 
-const Formulario = ({ pacientes, setPacientes }) => { 
+const Formulario = ({ pacientes, setPacientes, paciente, setPaciente  }) => { 
     const [nombre, setNombre] = useState(''); 
     const [propietario, setPropietario] = useState(''); 
     const [email, setEmail] = useState(''); 
@@ -10,6 +10,17 @@ const Formulario = ({ pacientes, setPacientes }) => {
     const [sintomas, setSintomas] = useState(''); 
 
     const [error, setError ] = useState(false);
+
+    useEffect( () => {
+        // console.log(paciente);
+        if( Object.keys(paciente).length > 0 ) {
+            setNombre(paciente.nombre)
+            setPropietario(paciente.propietario)
+            setEmail(paciente.email)
+            setFecha(paciente.fecha)
+            setSintomas(paciente.sintomas)
+        }
+    }, [paciente])
 
     const generarId = () => {
         const random = Math.random().toString(36).substring(2);
@@ -41,13 +52,25 @@ const Formulario = ({ pacientes, setPacientes }) => {
             propietario, 
             email, 
             fecha, 
-            sintomas,
-            id: generarId()
+            sintomas
         }
-        // console.log(objetoPaciente)
 
-        setPacientes([...pacientes, objetoPaciente]);
+        if(paciente.id){
+            // console.log('Editando el registro')
+            objetoPaciente.id = paciente.id
+            // console.log(objetoPaciente)
+            // console.log(paciente)
 
+            const pacientesActualizados = pacientes.map( pacienteState => pacienteState.id ===
+                paciente.id ? objetoPaciente : pacienteState)
+
+                setPacientes(pacientesActualizados)
+                setPaciente({})
+        }else{
+            // console.log('Nuevo registro')
+            objetoPaciente.id = generarId(); 
+            setPacientes([...pacientes, objetoPaciente]);
+        }
         // REINICIAR EL FORMULARIO
         setNombre('')
         setPropietario('')
@@ -147,7 +170,7 @@ const Formulario = ({ pacientes, setPacientes }) => {
                         uppercase font-bold
                         cursor-pointer
                         transition-all'
-                        value="Agregar Paciente"
+                        value={ paciente.id ? 'Editar Paciente' : 'Agregar Paciente'}
                 />
             </form>
         </div>

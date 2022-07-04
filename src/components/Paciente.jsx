@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Paciente = ({paciente}) => {
+const Paciente = ({paciente, setPaciente}) => {
     // console.log(paciente)
     const { nombre, propietario, email, fecha, sintomas } = paciente
   return (
@@ -25,6 +25,24 @@ const Paciente = ({paciente}) => {
                 <p className='font-bold mb-3 text-gray-700 uppercase'>Sintomas:{' '}
                     <span className='font-normal normal-case'>{sintomas}</span>
                 </p>
+                <div className='flex justify-between'>
+                    <button 
+                        type="button"
+                        className='py-2 px-10 bg-indigo-600 hover:bg-indigo-700
+                        rounded text-white font-bold uppercase'
+                        onClick={() => setPaciente(paciente)}
+                        >
+                        Editar
+                    </button>
+
+                    <button 
+                        type="button"
+                        className='py-2 px-10 bg-red-600 hover:bg-red-700
+                        rounded text-white font-bold uppercase'
+                        >
+                        Eliminar
+                    </button>
+                </div>
     </div>
   )
 }
