@@ -1,7 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import Error from './Error';
 
-const Formulario = () => { 
+const Formulario = ({ pacientes, setPacientes }) => { 
     const [nombre, setNombre] = useState(''); 
     const [propietario, setPropietario] = useState(''); 
     const [email, setEmail] = useState(''); 
@@ -18,11 +19,33 @@ const Formulario = () => {
             console.log('Hay al menos un campo vacio.')
 
             setError(true)
-        }else{
-            console.log('todos llenos')
+            return;
         }
+        // El else se elimina y se coloca el return de la ln 21
+        // else{
+        //     console.log('todos llenos')
+        // }
 
-        // console.log('Enviando formulario...')
+        setError(false)
+
+        //Objeto de paciente
+        const objetoPaciente ={
+            nombre, 
+            propietario, 
+            email, 
+            fecha, 
+            sintomas
+        }
+        // console.log(objetoPaciente)
+
+        setPacientes([...pacientes, objetoPaciente]);
+
+        // REINICIAR EL FORMULARIO
+        setNombre('')
+        setPropietario('')
+        setEmail('')
+        setFecha('')
+        setSintomas('')
     }
 
     return (
@@ -34,10 +57,12 @@ const Formulario = () => {
             </p>
 
             <form 
-                
-                className='bg-white shadow-md rounded-lg py-10 px-5 mb-10'
                 onSubmit={handleSubmit}
+                className='bg-white shadow-md rounded-lg py-10 px-5 mb-10'
                 >
+                    {/* MENSAJE DE ERRO  && significa que si -error es true entonces imprime si hay error */}
+                { error && <Error> <p> Todos los campos son obligatorios </p> </Error> }
+                    {/* MENSAJE DE ERRO  FIN*/}
                 <div className='mb-5 '>
                     <label htmlFor="mascota" className='block text-gray-700 uppercase font-bold'>
                         Nombre Mascota
